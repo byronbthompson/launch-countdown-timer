@@ -1,0 +1,118 @@
+$grayish-blue: hsl(237, 18%, 59%);
+$soft-red: #fb6087;
+
+$white: hsl(0, 0%, 100%);
+$dark-desaturated-blue: hsl(236, 21%, 26%);
+$very-dark-blue: hsl(235, 16%, 14%);
+$dark: hsl(234, 17%, 12%);
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::before {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: linear-gradient(
+      180deg,
+      rgba(25, 26, 36) 0%,
+      #1e1f29 19%,
+      transparent 100%
+    );
+  }
+
+  .header {
+    text-align: center;
+    font-size: 1.5rem;
+    letter-spacing: 9px;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 10vh !important;
+    margin-top: 16vh;
+  }
+
+  .stars {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-image: url(../assets/img/bg-stars.svg);
+    background-repeat: no-repeat;
+    background-size: 354%;
+    background-position: top;
+    position: absolute;
+  }
+
+  .mountains {
+    width: 100%;
+    height: 100%;
+    padding: 16% 4vw;
+    background-image: url(../assets/img/pattern-hills.svg);
+    background-repeat: no-repeat;
+    background-size: 170vh 28vh;
+    background-position: -211vw 71vh;
+    z-index: 5;
+
+    h2 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 16vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a > img:hover {
+      filter: invert(52%) sepia(78%) saturate(1576%) hue-rotate(309deg)
+        brightness(98%) contrast(101%);
+    }
+
+    img:nth-child(1) {
+      margin-right: 1rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media only screen and (min-width: 450px) {
+
+
+    .mountains {
+      background-position: -211vw 71vh;
+      background-size: 73vh 26vh;
+      background-position: left 75vh;
+    }
+  }
+
+  @media only screen and (min-width: 680px) {
+    .stars {
+      background-size: cover;
+      background-position: 95% -35%;
+    }
+
+    .mountains {
+      background-size: 100vw 26vh;
+      padding-top: 0;
+    }
+  }
+
+  @media only screen and (min-width: 1440px) {
+    .stars {
+      background-size: 98vw 76vh;
+      background-position: 95% -35%;
+    }
+  }
+}
