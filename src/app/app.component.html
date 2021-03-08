@@ -1,23 +1,23 @@
 <div id="app">
   <div class="stars"></div>
-  <div class="mountains">
+  <div class="wrapper mountains-bg">
     <p class="header">we're launching soon</p>
     <div class="flip-clock-container">
 
       <div class="column">
-        <app-flip-clock  [nextVal]="nextDay" [type]="'d'"></app-flip-clock>
+        <app-flip-clock  [nextVal]="nextDay" [type]="'days'"></app-flip-clock>
       </div>
 
       <div class="column">
-        <app-flip-clock [nextVal]="nextHours" [type]="'h'"></app-flip-clock>
+        <app-flip-clock [nextVal]="nextHours" [type]="'hours'"></app-flip-clock>
       </div>
 
       <div class="column">
-        <app-flip-clock [nextVal]="nextMins" [type]="'m'"></app-flip-clock>
+        <app-flip-clock [nextVal]="nextMins" [type]="'minutes'"></app-flip-clock>
       </div>
 
       <div class="column">
-        <app-flip-clock [nextVal]="nextSecs" [type]="'s'"></app-flip-clock>
+        <app-flip-clock [nextVal]="nextSecs" [type]="'seconds'"></app-flip-clock>
       </div>
     </div>
 

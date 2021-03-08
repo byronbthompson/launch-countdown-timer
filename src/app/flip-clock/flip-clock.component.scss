@@ -1,12 +1,4 @@
-$grayish-blue: hsl(237, 18%, 59%);
-$soft-red: hsl(345, 95%, 68%);
-
-$white: hsl(0, 0%, 100%);
-$dark-desaturated-blue: hsl(236, 21%, 26%);
-$very-dark-blue: hsl(235, 16%, 14%);
-$dark: hsl(234, 17%, 12%);
-
-$border-radius: 8px;
+@import '/src/variables';
 
 
 .flip-clock {
@@ -46,8 +38,8 @@ $border-radius: 8px;
     width: 19vw;
     height: 17vw;
 
-    max-width: 146px;
-    max-height: 132px;
+    max-width: 170px;
+    max-height: 156px;
 
     &::before,
     &::after {
@@ -206,10 +198,6 @@ $border-radius: 8px;
 ///
 // MEDIA QUERIES
 //
-@media only screen and (min-width: 1440px) {
-
-}
-
 @media only screen and (min-width: 680px) {
   .clock-footer {
     font-size: 0.8rem !important;

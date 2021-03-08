@@ -20,7 +20,8 @@ export class FlipClockComponent implements OnInit {
   constructor(private renderer: Renderer2) {}
 
   ngOnInit(): void {
-    this.buildElement()
+    // Initialize elementContext
+    this.buildElement();
     this.nextVal.subscribe( (next: string) => {
       this.runClock(next);
     })
@@ -28,22 +29,22 @@ export class FlipClockComponent implements OnInit {
 
   runClock(next: string): void {
     if (!this.previousVal) {
+      // set previous to next val
       this.previousVal = next;
     }
     if (this._elementContext && this._elementContext.digit) {
       if (!this._elementContext.digit.dataset.digitAfter && !this._elementContext.digit.dataset.digitBefore) {
-
+        // set Visble Digits
         this.renderer.setAttribute(this._elementContext.digit, 'data-digit-before', this.previousVal);
         this.renderer.setProperty(this._elementContext.cardFaceA, 'textContent', this.previousVal);
 
       } else if (this._elementContext.digit.dataset.digitBefore !== next) {
-
-        this._elementContext.digit.dataset.digitAfter = next;
-        this._elementContext.cardFaceB.textContent = this._elementContext.digit.dataset.digitAfter;
-
+        // Set hidden digit to next value
         this.renderer.setAttribute(this._elementContext.digit, 'data-digit-after', next);
         this.renderer.setProperty(this._elementContext.cardFaceB, 'textContent', next);
 
+        // Triggers callback after flip transition
+        // Updates current value to previous value (new current)
         this._elementContext.card.addEventListener(
           'transitionend',
           () => {
@@ -63,6 +64,8 @@ export class FlipClockComponent implements OnInit {
           },
           { once: true }
         );
+
+        // If this card isn't already flipped then flip it!
         if (!this._elementContext.card.classList.contains('flipped')) {
           this._elementContext.card.classList.add('flipped');
         }
@@ -71,6 +74,7 @@ export class FlipClockComponent implements OnInit {
     this.previousVal = next;
   }
 
+  // Grabs all the DOM elements needed to operate the clock and sets the member prop 'elementContext'
   buildElement(): void {
     this._elementContext = {
       digit: this.digit.nativeElement,
