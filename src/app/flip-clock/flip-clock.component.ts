@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, interval } from 'rxjs';
+import { element } from 'protractor';
+import { Component, ElementRef, Input, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { Observable, interval, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-flip-clock',
@@ -7,95 +8,75 @@ import { Observable, interval } from 'rxjs';
   styleUrls: ['./flip-clock.component.scss'],
 })
 export class FlipClockComponent implements OnInit {
-  clock = {};
-  totalDays: string = '14';
-  current: any;
+  private _elementContext: any;
+  previousVal: any;
+  @Input() nextVal: Subject<string>;
+  @Input() type: string;
+  @ViewChild('digit', { static: true }) digit: ElementRef;
+  @ViewChild('card', { static: true }) card: ElementRef;
+  @ViewChild('cardFaceA', { static: true }) cardFaceA: ElementRef;
+  @ViewChild('cardFaceB', { static: true }) cardFaceB: ElementRef;
+
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit(): void {
-    this.clock = {
-      s: this.initElements('s'),
-      m: this.initElements('m'),
-      h: this.initElements('h'),
-      d: this.initElements('d'),
-    };
+    this.buildElement()
+    this.nextVal.subscribe( (next: string) => {
+      this.runClock(next);
+    })
   }
 
-  initElements(type) {
-    let el = {};
-
-    if (!['s', 'm', 'h', 'd'].includes(type)) return el;
-
-    const target = document.querySelector(`.flip-clock-${type}`);
-
-    if (!target) return el;
-    const digit = target.querySelector('.digit');
-    const card = digit.querySelector('.card');
-    const cardFaces = card.querySelectorAll('.card-face');
-    const cardFaceFront = cardFaces[0];
-    const cardFaceBack = cardFaces[1];
-
-    el = {
-      digit,
-      card,
-      cardFaces,
-      cardFaceA: cardFaceFront,
-      cardFaceB: cardFaceBack,
+  runClock(next: string): void {
+    if (!this.previousVal) {
+      this.previousVal = next;
     }
+    if (this._elementContext && this._elementContext.digit) {
+      if (!this._elementContext.digit.dataset.digitAfter && !this._elementContext.digit.dataset.digitBefore) {
 
-    return el;
-  }
+        this.renderer.setAttribute(this._elementContext.digit, 'data-digit-before', this.previousVal);
+        this.renderer.setProperty(this._elementContext.cardFaceA, 'textContent', this.previousVal);
 
-  runClock(event) {
-    const newTime = event.text.split(':');
-    let next = {
-      d: newTime[0],
-      h: newTime[1],
-      m: newTime[2],
-      s: newTime[3],
-    };
+      } else if (this._elementContext.digit.dataset.digitBefore !== next) {
 
-    if(!this.current)
-    {
-      this.current = Object.assign({}, next);
-    }
+        this._elementContext.digit.dataset.digitAfter = next;
+        this._elementContext.cardFaceB.textContent = this._elementContext.digit.dataset.digitAfter;
 
-    for (const i of Object.keys(this.clock)) {
-        const currentEl = this.current[`${i}`];
+        this.renderer.setAttribute(this._elementContext.digit, 'data-digit-after', next);
+        this.renderer.setProperty(this._elementContext.cardFaceB, 'textContent', next);
 
-        let nextVal: any = next[`${i}`];
+        this._elementContext.card.addEventListener(
+          'transitionend',
+          () => {
+            this.renderer.setAttribute(this._elementContext.digit, 'data-digit-before', this.previousVal);
+            this.renderer.setProperty(this._elementContext.cardFaceA, 'textContent', this.previousVal);
 
-        const domEl = this.clock[i];
-        if (domEl && domEl.digit) {
-          if (!domEl.digit.dataset.digitAfter && !domEl.digit.dataset.digitBefore) {
-            // Visible
-            domEl.digit.dataset.digitBefore = currentEl;
-            domEl.cardFaceA.textContent = domEl.digit.dataset.digitBefore;
-          } else if (domEl.digit.dataset.digitBefore !== nextVal) {
-            domEl.digit.dataset.digitAfter = nextVal;
-            domEl.cardFaceB.textContent = domEl.digit.dataset.digitAfter;
-            domEl.card.addEventListener(
-              'transitionend',
-              () => {
-                domEl.digit.dataset.digitBefore = nextVal;
-                domEl.cardFaceA.textContent = domEl.digit.dataset.digitBefore;
-
-                const cardClone = domEl.card.cloneNode(true);
-                cardClone.classList.remove('flipped');
-                domEl.digit.replaceChild(cardClone, domEl.card);
-                domEl.card = cardClone;
-                domEl.cardFaces = domEl.card.querySelectorAll('.card-face');
-                domEl.cardFaceA = domEl.cardFaces[0];
-                domEl.cardFaceB = domEl.cardFaces[1];
-              },
-              { once: true }
+            const cardClone = this._elementContext.card.cloneNode(true);
+            this.renderer.removeClass(cardClone, 'flipped');
+            this._elementContext.digit.replaceChild(
+              cardClone,
+              this._elementContext.card
             );
-            if (!domEl.card.classList.contains('flipped' )) {
-              this.clock[i].card.classList.add('flipped');
-            }
-          }
+            this._elementContext.card = cardClone;
+            const cardFaces = this._elementContext.card.querySelectorAll('.card-face');
+            this._elementContext.cardFaceA = cardFaces[0];
+            this._elementContext.cardFaceB = cardFaces[1];
+          },
+          { once: true }
+        );
+        if (!this._elementContext.card.classList.contains('flipped')) {
+          this._elementContext.card.classList.add('flipped');
         }
-
+      }
     }
-    this.current = Object.assign({}, next);
+    this.previousVal = next;
+  }
+
+  buildElement(): void {
+    this._elementContext = {
+      digit: this.digit.nativeElement,
+      card: this.card.nativeElement,
+      cardFaceA: this.cardFaceA.nativeElement,
+      cardFaceB: this.cardFaceB.nativeElement,
+    };
   }
 }
