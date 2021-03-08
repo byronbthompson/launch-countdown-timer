@@ -2,11 +2,37 @@
   <div class="stars"></div>
   <div class="mountains">
     <p class="header">we're launching soon</p>
-    <app-flip-clock id="flip-clock-container"></app-flip-clock>
+    <div class="flip-clock-container">
+
+      <div class="column">
+        <app-flip-clock  [nextVal]="nextDay" [type]="'d'"></app-flip-clock>
+      </div>
+
+      <div class="column">
+        <app-flip-clock [nextVal]="nextHours" [type]="'h'"></app-flip-clock>
+      </div>
+
+      <div class="column">
+        <app-flip-clock [nextVal]="nextMins" [type]="'m'"></app-flip-clock>
+      </div>
+
+      <div class="column">
+        <app-flip-clock [nextVal]="nextSecs" [type]="'s'"></app-flip-clock>
+      </div>
+    </div>
+
+    <countdown (event)="onNewValue($event)"></countdown>
+
     <div class="footer">
-      <a href=""><img src="../assets/img/icon-facebook.svg" alt="Link to Facebook"></a>
-      <a href=""><img src="../assets/img/icon-pinterest.svg" alt="Link to Pinterest"></a>
-      <a href=""><img src="../assets/img/icon-instagram.svg" alt="Link to Instagram"></a>
+      <a href=""
+        ><img src="../assets/img/icon-facebook.svg" alt="Link to Facebook"
+      /></a>
+      <a href=""
+        ><img src="../assets/img/icon-pinterest.svg" alt="Link to Pinterest"
+      /></a>
+      <a href=""
+        ><img src="../assets/img/icon-instagram.svg" alt="Link to Instagram"
+      /></a>
     </div>
   </div>
 </div>

@@ -87,6 +87,34 @@ $dark: hsl(234, 17%, 12%);
     }
   }
 
+  .flip-clock-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 32px;
+    line-height: 0;
+    max-width: 714px;
+    margin-left: auto;
+    margin-right: auto;
+
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+
+      cursor: default;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+
+  }
+
+  ///
+  // MEDIA QUERIES
+  ///
   @media only screen and (min-width: 450px) {
 
 
@@ -106,6 +134,10 @@ $dark: hsl(234, 17%, 12%);
     .mountains {
       background-size: 100vw 26vh;
       padding-top: 0;
+    }
+
+    .flip-clock-container {
+      font-size: 5rem;
     }
   }
 

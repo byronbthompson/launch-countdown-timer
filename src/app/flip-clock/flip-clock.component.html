@@ -1,72 +1,14 @@
-<div class="flip-clock-container">
-
-  <div class="column">
-    <div class="flip-clock flip-clock-d">
-      <!-- ::before:: -->
-      <div class="digit">
-        <!-- ::before -->
-        <div class="card">
-          <div class="card-face card-face-front inset-radius"></div>
-          <div class="card-face card-face-back"></div>
-        </div>
-        <div class="corner-inset"></div>
-        <!-- ::after -->
-        <div class="clock-footer">DAYS</div>
-      </div>
-      <div class="overlay"></div>
+<div class="flip-clock flip-clock-{{type}}">
+  <!-- ::before:: -->
+  <div class="digit" #digit>
+    <!-- ::before -->
+    <div class="card" #card>
+      <div class="card-face card-face-front inset-radius" #cardFaceA></div>
+      <div class="card-face card-face-back" #cardFaceB></div>
     </div>
+    <div class="corner-inset"></div>
+    <!-- ::after -->
+    <div class="clock-footer">DAYS</div>
   </div>
-
-  <div class="column">
-    <div class="flip-clock flip-clock-h">
-      <!-- ::before:: -->
-      <div class="digit">
-        <!-- ::before -->
-        <div iv class="card">
-          <div class="card-face card-face-front"></div>
-          <div class="card-face card-face-back"></div>
-        </div>
-        <div class="corner-inset"></div>
-        <!-- ::after -->
-        <div class="clock-footer">HOURS</div>
-      </div>
-      <div class="overlay"></div>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="flip-clock flip-clock-m">
-      <!-- ::before:: -->
-      <div class="digit">
-        <!-- ::before -->
-        <div class="card">
-          <div class="card-face card-face-front"></div>
-          <div class="card-face card-face-back"></div>
-        </div>
-        <div class="corner-inset"></div>
-        <!-- ::after -->
-        <div class="clock-footer">MINUTES</div>
-      </div>
-      <div class="overlay"></div>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="flip-clock flip-clock-s">
-      <!-- ::before:: -->
-      <div class="digit">
-        <!-- ::before -->
-        <div class="card">
-          <div class="card-face card-face-front"></div>
-          <div class="card-face card-face-back"></div>
-        </div>
-        <div class="corner-inset"></div>
-        <!-- ::after -->
-        <div class="clock-footer">SECONDS</div>
-      </div>
-      <div class="overlay"></div>
-    </div>
-  </div>
+  <div class="overlay"></div>
 </div>
-
-<countdown (event)="runClock($event)"></countdown>
